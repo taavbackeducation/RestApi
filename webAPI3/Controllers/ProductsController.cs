@@ -1,33 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using webAPI3.App.Dtos;
 using webAPI3.App.Models;
+using webAPI3.Repositories;
 
 namespace webAPI3.Controllers
 {
     [Route("/api/products")]
     public class ProductsController : ControllerBase
     {
-        private readonly List<Product> _products;
+        private readonly EFDataContext _dbContext;
+        private readonly DbSet<Product> _products;
 
         public ProductsController()
         {
-            _products = new List<Product>();
-            _products.Add(GenerateProduct(id: 1, title: "toy car"));
-            _products.Add(GenerateProduct(id: 2, title: "toy airplane"));
+            _dbContext = new EFDataContext();
+            _products = _dbContext.Products;
         }
 
         [HttpPost]
         public void Add([FromBody]AddProductDto dto)
         {
-            _products.Add(new Product
-            {
-                Id = _products.Count + 1,
-                Title = dto.Title,
-                Price = dto.Price
-            });
+            _products.Add(GenerateProduct(dto.Title, dto.Price));
+            _dbContext.SaveChanges();
         }
 
         [HttpGet]
@@ -66,6 +64,8 @@ namespace webAPI3.Controllers
 
             product.Title = dto.Title;
             product.Price = dto.Price;
+
+            _dbContext.SaveChanges();
         }
 
         private static void StopIfProductNotFound(Product product)
@@ -81,6 +81,8 @@ namespace webAPI3.Controllers
             StopIfProductNotFound(product);
 
             product.Stock += dto.Stock;
+            
+            _dbContext.SaveChanges();
         }
 
         [HttpDelete("{id}")]
@@ -90,16 +92,17 @@ namespace webAPI3.Controllers
             StopIfProductNotFound(product);
 
             _products.Remove(product);
+
+            _dbContext.SaveChanges();
         }
 
-        private static Product GenerateProduct(int id, string title)
+        private static Product GenerateProduct(string title, double price)
         {
             return new Product
             {
-                Id = id,
                 Title = title,
-                Price = 1000,
-                Stock = 10
+                Price = price,
+                Stock = 0
             };
         }
     }

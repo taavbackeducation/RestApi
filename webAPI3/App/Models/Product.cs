@@ -1,4 +1,6 @@
-﻿namespace webAPI3.App.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace webAPI3.App.Models
 {
     public class Product
     {

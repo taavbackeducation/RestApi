@@ -1,0 +1,3 @@
+﻿1. onconfiguring vs constructor in dbContext
+2. generic in c#
+3. reference type vs value type
