@@ -68,12 +68,6 @@ namespace webAPI3.Controllers
             _dbContext.SaveChanges();
         }
 
-        private static void StopIfProductNotFound(Product product)
-        {
-            if (product == null)
-                throw new Exception("product is not valid");
-        }
-
         [HttpPatch("{id}")]
         public void IncreaseStock(int id, [FromBody]IncreaseStockDto dto) 
         {
@@ -94,6 +88,12 @@ namespace webAPI3.Controllers
             _products.Remove(product);
 
             _dbContext.SaveChanges();
+        }
+
+        private static void StopIfProductNotFound(Product product)
+        {
+            if (product == null)
+                throw new Exception("product is not valid");
         }
 
         private static Product GenerateProduct(string title, double price)

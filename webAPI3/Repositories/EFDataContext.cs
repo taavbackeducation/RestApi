@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using webAPI3.App.Models;
+using webAPI3.Repositories.Products;
 
 namespace webAPI3.Repositories
 {
@@ -20,18 +21,7 @@ namespace webAPI3.Repositories
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            EntityMapOnProductModel(modelBuilder);
-        }
-
-        private static void EntityMapOnProductModel(ModelBuilder modelBuilder)
-        {
-            var product = modelBuilder.Entity<Product>();
-
-            product.HasKey(product => product.Id);
-            product.Property(_ => _.Id).IsRequired();
-            product.Property(_ => _.Title).HasMaxLength(50).IsRequired();
-            product.Property(_ => _.Price).IsRequired();
-            product.Property(_ => _.Stock).IsRequired();
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFDataContext).Assembly);
         }
     }
 }
