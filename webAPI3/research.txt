@@ -1,4 +1,13 @@
-﻿1. onconfiguring vs constructor in dbContext
+﻿7 azar 1400 : EF Course
+************************************************
+1. onconfiguring vs constructor in dbContext
 2. generic in c#
 3. reference type vs value type
 4. assembly in C#
+************************************************
+8 azar 1400 : EF & Migration
+************************************************
+1. using EF tools in Migration
+2. Dependency injection
+3. why we use ValueGeneratedOnAdd in EntityMaps not in fluentMigrator?
+4. Shadow properties in EF

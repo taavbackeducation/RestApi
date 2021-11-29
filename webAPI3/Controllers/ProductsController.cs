@@ -14,17 +14,21 @@ namespace webAPI3.Controllers
     {
         private readonly EFDataContext _dbContext;
         private readonly DbSet<Product> _products;
+        private readonly DbSet<Category> _categories;
 
         public ProductsController()
         {
             _dbContext = new EFDataContext();
-            _products = _dbContext.Products;
+            _products = _dbContext.Set<Product>();
+            _categories = _dbContext.Set<Category>();
         }
 
         [HttpPost]
         public void Add([FromBody]AddProductDto dto)
         {
-            _products.Add(GenerateProduct(dto.Title, dto.Price));
+            if (_categories.Any(_ => _.Id == dto.CategoryId) == false)
+                throw new Exception("category not exist!");
+            _products.Add(GenerateProduct(dto.Title, dto.Price, dto.CategoryId));
             _dbContext.SaveChanges();
         }
 
@@ -96,12 +100,13 @@ namespace webAPI3.Controllers
                 throw new Exception("product is not valid");
         }
 
-        private static Product GenerateProduct(string title, double price)
+        private static Product GenerateProduct(string title, double price, int categoryId)
         {
             return new Product
             {
                 Title = title,
                 Price = price,
+                CategoryId = categoryId,
                 Stock = 0
             };
         }
