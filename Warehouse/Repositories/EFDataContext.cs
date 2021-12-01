@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using webAPI3.App.Models;
-using webAPI3.Repositories.Products;
+using Warehouse.App.Models;
+using Warehouse.Repositories.Products;
 
-namespace webAPI3.Repositories
+namespace Warehouse.Repositories
 {
     public class EFDataContext : DbContext
     {
@@ -19,6 +20,19 @@ namespace webAPI3.Repositories
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFDataContext).Assembly);
+        }
+
+
+        public override ChangeTracker ChangeTracker
+        {
+            get
+            {
+                var tracker = base.ChangeTracker;
+                tracker.LazyLoadingEnabled = false;
+                tracker.AutoDetectChangesEnabled = true;
+                tracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
+                return tracker;
+            }
         }
     }
 }

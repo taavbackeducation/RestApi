@@ -1,4 +1,4 @@
-﻿namespace webAPI3.App.Dtos
+﻿namespace Warehouse.App.Dtos
 {
     public class IncreaseStockDto
     {

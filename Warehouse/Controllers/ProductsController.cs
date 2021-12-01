@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using webAPI3.App.Dtos;
-using webAPI3.App.Models;
-using webAPI3.Repositories;
-using webAPI3.Repositories.Categories;
-using webAPI3.Repositories.Products;
+using Warehouse.App.Dtos;
+using Warehouse.App.Models;
+using Warehouse.Repositories;
+using Warehouse.Repositories.Categories;
+using Warehouse.Repositories.Products;
 
-namespace webAPI3.Controllers
+namespace Warehouse.Controllers
 {
     [Route("/api/products")]
     public class ProductsController : ControllerBase

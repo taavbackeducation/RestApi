@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using webAPI3.App.Models;
-using webAPI3.Repositories;
+using Warehouse.App.Models;
+using System.Linq;
 
-namespace webAPI3.Repositories.Categories
+namespace Warehouse.Repositories.Categories
 {
     internal class CategoriesRepository
     {

@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace Migrations.Migrations
+namespace Warehouse.Migrations.Migrations
 {
     [Migration(202111291024)]
     public class _202111291024_CreateProductsTable : Migration

@@ -1,9 +1,8 @@
-﻿using FluentMigrator;
+﻿using Microsoft.Extensions.DependencyInjection;
 using FluentMigrator.Runner;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Migrations
+namespace Warehouse.Migrations
 {
     class Program
     {

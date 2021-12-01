@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webAPI3
+namespace Warehouse
 {
     public class Program
     {

@@ -1,7 +1,7 @@
 ﻿using FluentMigrator;
 using System.Data;
 
-namespace Migrations.Migrations
+namespace Warehouse.Migrations.Migrations
 {
     [Migration(202111291250)]
     public class _202111291250_CreateCategoriesTable : Migration

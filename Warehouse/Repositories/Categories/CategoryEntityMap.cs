@@ -1,12 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using webAPI3.App.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using Warehouse.App.Models;
 
-namespace webAPI3.Repositories.Categories
+namespace Warehouse.Repositories.Categories
 {
     class CategoryEntityMap : IEntityTypeConfiguration<Category>
     {

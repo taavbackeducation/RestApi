@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using webAPI3.App.Dtos;
-using webAPI3.App.Models;
-using webAPI3.Repositories;
+using Warehouse.App.Dtos;
+using Warehouse.App.Models;
+using Warehouse.Repositories;
 
-namespace webAPI3.Repositories.Products
+namespace Warehouse.Repositories.Products
 {
     internal class ProductsRepository
     {

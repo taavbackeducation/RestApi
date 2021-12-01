@@ -1,6 +1,6 @@
-﻿namespace webAPI3.App.Dtos
+﻿namespace Warehouse.App.Dtos
 {
-    public class UpdateProductDto
+    public class AddProductDto
     {
         public string Title { get; set; }
         public double Price { get; set; }

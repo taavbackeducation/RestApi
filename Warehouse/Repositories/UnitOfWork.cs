@@ -1,4 +1,4 @@
-﻿namespace webAPI3.Repositories
+﻿namespace Warehouse.Repositories
 {
     internal class UnitOfWork
     {
