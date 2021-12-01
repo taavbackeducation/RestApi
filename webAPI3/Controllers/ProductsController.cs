@@ -1,97 +1,84 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using webAPI3.App.Dtos;
 using webAPI3.App.Models;
 using webAPI3.Repositories;
+using webAPI3.Repositories.Categories;
+using webAPI3.Repositories.Products;
 
 namespace webAPI3.Controllers
 {
     [Route("/api/products")]
     public class ProductsController : ControllerBase
     {
-        private readonly EFDataContext _dbContext;
-        private readonly DbSet<Product> _products;
-        private readonly DbSet<Category> _categories;
+        private readonly ProductsRepository _products;
+        private readonly CategoriesRepository _categories;
+        private readonly UnitOfWork _unitOfWork;
 
         public ProductsController()
         {
-            _dbContext = new EFDataContext();
-            _products = _dbContext.Set<Product>();
-            _categories = _dbContext.Set<Category>();
+            var dbContext = new EFDataContext();
+            _products = new ProductsRepository(dbContext);
+            _categories = new CategoriesRepository(dbContext);
+            _unitOfWork = new UnitOfWork(dbContext);
         }
 
         [HttpPost]
         public void Add([FromBody]AddProductDto dto)
         {
-            if (_categories.Any(_ => _.Id == dto.CategoryId) == false)
-                throw new Exception("category not exist!");
+            StopIfCategoryNotExist(dto.CategoryId);
             _products.Add(GenerateProduct(dto.Title, dto.Price, dto.CategoryId));
-            _dbContext.SaveChanges();
+            _unitOfWork.Complete();
         }
 
         [HttpGet]
         public List<GetProcutDto> GetAll(string searchText = "")
         {
-            return _products.Where(product => product.Title.Contains(searchText))
-                .Select(_ => new GetProcutDto
-                {
-                    Id = _.Id,
-                    Title = _.Title,
-                    Price = _.Price,
-                    CountInStock = _.Stock
-
-                }).ToList();
+            return _products.GetAll(searchText);
         }
 
         [HttpGet("{id}")]
         public GetProcutDto GetDetail(int id)
         {
-            return _products.Where(_ => _.Id == id)
-                .Select(_ => new GetProcutDto
-                {
-                    Id = _.Id,
-                    CountInStock = _.Stock,
-                    Price = _.Price,
-                    Title = _.Title
-
-                }).FirstOrDefault();
+            return _products.GetDetail(id);
         }
 
         [HttpPut("{id}")]
         public void Change(int id, [FromBody]UpdateProductDto dto)
         {
-            var product = _products.FirstOrDefault(_ => _.Id == id);
+            var product = _products.Find(id);
             StopIfProductNotFound(product);
+
+            StopIfCategoryNotExist(dto.CategoryId);
 
             product.Title = dto.Title;
             product.Price = dto.Price;
+            product.CategoryId = dto.CategoryId;
 
-            _dbContext.SaveChanges();
+            _unitOfWork.Complete();
         }
 
         [HttpPatch("{id}")]
         public void IncreaseStock(int id, [FromBody]IncreaseStockDto dto) 
         {
-            var product = _products.FirstOrDefault(_ => _.Id == id);
+            var product = _products.Find(id);
             StopIfProductNotFound(product);
 
             product.Stock += dto.Stock;
-            
-            _dbContext.SaveChanges();
+
+            _unitOfWork.Complete();
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id , [FromHeader] string x) 
         {
-            var product = _products.FirstOrDefault(_ => _.Id == id);
+            var product = _products.Find(id);
             StopIfProductNotFound(product);
 
             _products.Remove(product);
 
-            _dbContext.SaveChanges();
+            _unitOfWork.Complete();
         }
 
         private static void StopIfProductNotFound(Product product)
@@ -110,5 +97,11 @@ namespace webAPI3.Controllers
                 Stock = 0
             };
         }
+        private void StopIfCategoryNotExist(int categoryId)
+        {
+            if (!_categories.IsExist(categoryId))
+                throw new Exception("category not exist!");
+        }
+
     }
 }

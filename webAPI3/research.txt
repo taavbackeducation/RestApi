@@ -11,3 +11,7 @@
 2. Dependency injection
 3. why we use ValueGeneratedOnAdd in EntityMaps not in fluentMigrator?
 4. Shadow properties in EF
+************************************************
+10 azar 1400 : Repository & UnitOfWork
+************************************************
+1. Search about concept of Repository and UnitOfWork

@@ -9,7 +9,7 @@ namespace Migrations.Migrations
         {
             Create.Table("Products")
                   .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-                  .WithColumn("Price").AsFloat().NotNullable()
+                  .WithColumn("Price").AsDouble().NotNullable()
                   .WithColumn("Title").AsString(50).NotNullable()
                   .WithColumn("Stock").AsInt32().NotNullable();
         }
