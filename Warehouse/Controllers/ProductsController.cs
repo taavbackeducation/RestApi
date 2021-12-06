@@ -1,107 +1,54 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Warehouse.Services.Products.Contracts.Dtos;
+using Warehouse.Services.Products.Contracts;
 using System.Collections.Generic;
-using Warehouse.App.Dtos;
-using Warehouse.App.Models;
-using Warehouse.Repositories;
-using Warehouse.Repositories.Categories;
-using Warehouse.Repositories.Products;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Warehouse.Controllers
 {
     [Route("/api/products")]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductsRepository _products;
-        private readonly CategoriesRepository _categories;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly ProductService _productService;
 
-        public ProductsController()
+        public ProductsController(ProductService productService)
         {
-            var dbContext = new EFDataContext();
-            _products = new ProductsRepository(dbContext);
-            _categories = new CategoriesRepository(dbContext);
-            _unitOfWork = new UnitOfWork(dbContext);
+            _productService = productService;
         }
 
         [HttpPost]
         public void Add([FromBody]AddProductDto dto)
         {
-            StopIfCategoryNotExist(dto.CategoryId);
-            _products.Add(GenerateProduct(dto.Title, dto.Price, dto.CategoryId));
-            _unitOfWork.Complete();
+            _productService.Add(dto);
         }
 
         [HttpGet]
         public List<GetProcutDto> GetAll(string searchText = "")
         {
-            return _products.GetAll(searchText);
+            return _productService.GetAll(searchText);
         }
 
         [HttpGet("{id}")]
         public GetProcutDto GetDetail(int id)
         {
-            return _products.GetDetail(id);
+            return _productService.GetDetail(id);
         }
 
         [HttpPut("{id}")]
         public void Change(int id, [FromBody]UpdateProductDto dto)
         {
-            var product = _products.Find(id);
-            StopIfProductNotFound(product);
-
-            StopIfCategoryNotExist(dto.CategoryId);
-
-            product.Title = dto.Title;
-            product.Price = dto.Price;
-            product.CategoryId = dto.CategoryId;
-
-            _unitOfWork.Complete();
+            _productService.Change(id, dto);
         }
 
         [HttpPatch("{id}")]
         public void IncreaseStock(int id, [FromBody]IncreaseStockDto dto) 
         {
-            var product = _products.Find(id);
-            StopIfProductNotFound(product);
-
-            product.Stock += dto.Stock;
-
-            _unitOfWork.Complete();
+            _productService.IncreaseStock(id, dto);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id , [FromHeader] string x) 
+        public void Delete(int id) 
         {
-            var product = _products.Find(id);
-            StopIfProductNotFound(product);
-
-            _products.Remove(product);
-
-            _unitOfWork.Complete();
+            _productService.Delete(id);
         }
-
-        private static void StopIfProductNotFound(Product product)
-        {
-            if (product == null)
-                throw new Exception("product is not valid");
-        }
-
-        private static Product GenerateProduct(string title, double price, int categoryId)
-        {
-            return new Product
-            {
-                Title = title,
-                Price = price,
-                CategoryId = categoryId,
-                Stock = 0
-            };
-        }
-        private void StopIfCategoryNotExist(int categoryId)
-        {
-            if (!_categories.IsExist(categoryId))
-                throw new Exception("category not exist!");
-        }
-
     }
 }

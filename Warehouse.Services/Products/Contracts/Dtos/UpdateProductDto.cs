@@ -1,4 +1,4 @@
-﻿namespace Warehouse.App.Dtos
+﻿namespace Warehouse.Services.Products.Contracts.Dtos
 {
     public class UpdateProductDto
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Warehouse.App.Models;
+using Warehouse.Entities;
 
-namespace Warehouse.Repositories.Products
+namespace Warehouse.PersistenceEF.Products
 {
     class ProductEntityMap : IEntityTypeConfiguration<Product>
     {

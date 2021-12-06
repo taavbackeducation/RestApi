@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Warehouse.PersistenceEF;
+using Warehouse.PersistenceEF.Categories;
+using Warehouse.PersistenceEF.Products;
+using Warehouse.Services.Products;
+using Warehouse.Services.Products.Contracts;
+using Warehouse.Services.SharedContracts;
 
 namespace Warehouse
 {
@@ -27,6 +34,11 @@ namespace Warehouse
         {
 
             services.AddControllers();
+            services.AddDbContext<EFDataContext>();
+            services.AddScoped<ProductService, ProductAppService>();
+            services.AddScoped<ProductRepository, EFProductRepository>();
+            services.AddScoped<CategoryRepository, EFCategoryRepository>();
+            services.AddTransient<UnitOfWork, EFUnitOfWork>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Warehouse", Version = "v1" });

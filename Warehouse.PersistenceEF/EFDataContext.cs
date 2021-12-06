@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using Warehouse.App.Models;
-using Warehouse.Repositories.Products;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 
-namespace Warehouse.Repositories
+namespace Warehouse.PersistenceEF
 {
     public class EFDataContext : DbContext
     {
@@ -21,7 +18,6 @@ namespace Warehouse.Repositories
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(EFDataContext).Assembly);
         }
-
 
         public override ChangeTracker ChangeTracker
         {

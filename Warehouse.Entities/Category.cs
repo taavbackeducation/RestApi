@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Warehouse.App.Models
+namespace Warehouse.Entities
 {
     public class Category
     {

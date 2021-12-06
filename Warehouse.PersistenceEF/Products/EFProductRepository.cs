@@ -1,33 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using Warehouse.Services.Products.Contracts.Dtos;
+using Warehouse.Services.Products.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Warehouse.Entities;
 using System.Linq;
-using Warehouse.App.Dtos;
-using Warehouse.App.Models;
-using Warehouse.Repositories;
 
-namespace Warehouse.Repositories.Products
+namespace Warehouse.PersistenceEF.Products
 {
-    internal class ProductsRepository
+    public class EFProductRepository : ProductRepository
     {
         private readonly DbSet<Product> _products;
 
-        public ProductsRepository(EFDataContext dbContext)
+        public EFProductRepository(EFDataContext dbContext)
         {
             _products = dbContext.Set<Product>();
         }
 
-        internal void Add(Product product)
+        public void Add(Product product)
         {
             _products.Add(product);
         }
 
-        internal Product Find(int id)
+        public Product Find(int id)
         {
             return _products.FirstOrDefault(_ => _.Id == id);
         }
 
-        internal List<GetProcutDto> GetAll(string searchText)
+        public List<GetProcutDto> GetAll(string searchText)
         {
             return _products.Where(product => product.Title.Contains(searchText))
                 .Select(_ => new GetProcutDto
@@ -41,7 +40,7 @@ namespace Warehouse.Repositories.Products
                 }).ToList();
         }
 
-        internal GetProcutDto GetDetail(int id)
+        public GetProcutDto GetDetail(int id)
         {
             return _products.Where(_ => _.Id == id)
                 .Select(_ => new GetProcutDto
@@ -55,7 +54,7 @@ namespace Warehouse.Repositories.Products
                 }).FirstOrDefault();
         }
 
-        internal void Remove(Product product)
+        public void Remove(Product product)
         {
             _products.Remove(product);
         }

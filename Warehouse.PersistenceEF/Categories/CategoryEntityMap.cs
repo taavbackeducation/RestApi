@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Warehouse.App.Models;
+using Warehouse.Entities;
 
-namespace Warehouse.Repositories.Categories
+namespace Warehouse.PersistenceEF.Categories
 {
     class CategoryEntityMap : IEntityTypeConfiguration<Category>
     {
