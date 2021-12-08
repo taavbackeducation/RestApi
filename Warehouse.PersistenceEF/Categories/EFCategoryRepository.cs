@@ -1,7 +1,7 @@
-﻿using Warehouse.Services.Products.Contracts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Warehouse.Entities;
 using System.Linq;
+using Warehouse.Services.Categories.Contracts;
 
 namespace Warehouse.PersistenceEF.Categories
 {
@@ -14,9 +14,19 @@ namespace Warehouse.PersistenceEF.Categories
             _categories = dbContext.Set<Category>();
         }
 
+        public void Add(Category category)
+        {
+            _categories.Add(category);
+        }
+
         public bool IsExist(int categoryId)
         {
             return _categories.Any(_ => _.Id == categoryId);
+        }
+		
+		public bool IsExist(string title)
+        {
+            return _categories.Any(_ => _.Title == title);
         }
     }
 }

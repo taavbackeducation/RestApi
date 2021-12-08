@@ -4,7 +4,8 @@ using System;
 using Warehouse.Services.Products.Contracts.Dtos;
 using Warehouse.Services.Products.Contracts;
 using Warehouse.Services.SharedContracts;
-using Warehouse.Services.Categories.Exceptions;
+using Warehouse.Services.Categories.Contracts;
+using Warehouse.Services.Products.Exceptions;
 
 namespace Warehouse.Services.Products
 {
