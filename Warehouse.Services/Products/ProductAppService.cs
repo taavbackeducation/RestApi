@@ -4,6 +4,7 @@ using System;
 using Warehouse.Services.Products.Contracts.Dtos;
 using Warehouse.Services.Products.Contracts;
 using Warehouse.Services.SharedContracts;
+using Warehouse.Services.Categories.Exceptions;
 
 namespace Warehouse.Services.Products
 {
@@ -93,7 +94,7 @@ namespace Warehouse.Services.Products
         private void StopIfCategoryNotExist(int categoryId)
         {
             if (!_categories.IsExist(categoryId))
-                throw new Exception("category not exist!");
+                throw new CategoryNotFoundException();
         }
     }
 }
