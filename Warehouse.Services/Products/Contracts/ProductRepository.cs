@@ -11,5 +11,6 @@ namespace Warehouse.Services.Products.Contracts
         GetProcutDto GetDetail(int id);
         Product Find(int id);
         void Remove(Product product);
+        bool IsExist(int productId);
     }
 }

@@ -6,11 +6,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Warehouse.PersistenceEF;
 using Warehouse.PersistenceEF.Categories;
+using Warehouse.PersistenceEF.NeedRequests;
 using Warehouse.PersistenceEF.Products;
 using Warehouse.Services.Categories;
 using Warehouse.Services.Categories.Contracts;
 using Warehouse.Services.Products;
 using Warehouse.Services.Products.Contracts;
+using Warehouse.Services.RequestNeeds;
+using Warehouse.Services.RequestNeeds.Contracts;
 using Warehouse.Services.SharedContracts;
 
 namespace Warehouse
@@ -29,15 +32,9 @@ namespace Warehouse
 
             services.AddControllers();
             services.AddDbContext<EFDataContext>();
+            
+            ConfigBusinessServices(services);
 
-            services.AddScoped<ProductService, ProductAppService>();
-            services.AddScoped<CategoryService, CategoryAppService>();
-            
-            services.AddScoped<ProductRepository, EFProductRepository>();
-            services.AddScoped<CategoryRepository, EFCategoryRepository>();
-            
-            services.AddTransient<UnitOfWork, EFUnitOfWork>();
-            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Warehouse", Version = "v1" });
@@ -63,6 +60,19 @@ namespace Warehouse
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static void ConfigBusinessServices(IServiceCollection services)
+        {
+            services.AddScoped<ProductService, ProductAppService>();
+            services.AddScoped<CategoryService, CategoryAppService>();
+            services.AddScoped<RequestNeedService, RequestNeedAppService>();
+
+            services.AddScoped<ProductRepository, EFProductRepository>();
+            services.AddScoped<CategoryRepository, EFCategoryRepository>();
+            services.AddScoped<RequestNeedRepository, EFRequestNeedRepository>();
+
+            services.AddTransient<UnitOfWork, EFUnitOfWork>();
         }
     }
 }

@@ -3,12 +3,11 @@ using System;
 using System.Linq;
 using Warehouse.Entities;
 using Warehouse.PersistenceEF;
-using Warehouse.Services.Categories.Exceptions;
 using Warehouse.Services.Products.Contracts;
 using Warehouse.Services.Products.Exceptions;
 using Warehouse.TestTools.Categories;
 using Warehouse.TestTools.Products;
-using Warehouse.UnitTests.Tools;
+using Warehouse.UnitTests.Infrastructure;
 using Xunit;
 
 namespace Warehouse.UnitTests

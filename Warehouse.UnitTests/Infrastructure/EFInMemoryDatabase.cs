@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace Warehouse.UnitTests.Tools
+namespace Warehouse.UnitTests.Infrastructure
 {
     public class EFInMemoryDatabase : IDisposable
     {

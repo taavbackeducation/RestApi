@@ -1,14 +1,13 @@
 ﻿using Warehouse.Services.Categories.Contracts;
 using Warehouse.TestTools.Categories;
-using Warehouse.UnitTests.Tools;
 using Warehouse.PersistenceEF;
 using Warehouse.Entities;
 using FluentAssertions;
 using System.Linq;
 using Xunit;
 using System;
-using Warehouse.Services;
 using Warehouse.Services.Categories.Exceptions;
+using Warehouse.UnitTests.Infrastructure;
 
 namespace Warehouse.UnitTests.Categories
 {

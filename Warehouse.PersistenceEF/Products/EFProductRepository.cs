@@ -54,6 +54,11 @@ namespace Warehouse.PersistenceEF.Products
                 }).FirstOrDefault();
         }
 
+        public bool IsExist(int productId)
+        {
+            return _products.Any(_ => _.Id == productId);
+        }
+
         public void Remove(Product product)
         {
             _products.Remove(product);

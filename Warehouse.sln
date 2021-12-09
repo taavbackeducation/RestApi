@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.Services", "Wareh
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{47D41EDE-CF80-4688-B6F6-A43473129045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.UnitTests", "Warehouse.UnitTests\Warehouse.UnitTests.csproj", "{A76A4AE1-0CF6-4A80-AEEB-BA74AF09018E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.UnitTests", "Warehouse.UnitTests\Warehouse.UnitTests.csproj", "{A76A4AE1-0CF6-4A80-AEEB-BA74AF09018E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.TestTools", "Warehouse.TestTools\Warehouse.TestTools.csproj", "{2F0CB623-DBD1-4EA3-ABDA-DD2614CC8A7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.TestTools", "Warehouse.TestTools\Warehouse.TestTools.csproj", "{2F0CB623-DBD1-4EA3-ABDA-DD2614CC8A7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Specs", "Warehouse.Specs\Warehouse.Specs.csproj", "{F7670C70-11B1-4D66-8340-FDE8E1612B78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{2F0CB623-DBD1-4EA3-ABDA-DD2614CC8A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F0CB623-DBD1-4EA3-ABDA-DD2614CC8A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F0CB623-DBD1-4EA3-ABDA-DD2614CC8A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7670C70-11B1-4D66-8340-FDE8E1612B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7670C70-11B1-4D66-8340-FDE8E1612B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7670C70-11B1-4D66-8340-FDE8E1612B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7670C70-11B1-4D66-8340-FDE8E1612B78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A76A4AE1-0CF6-4A80-AEEB-BA74AF09018E} = {47D41EDE-CF80-4688-B6F6-A43473129045}
 		{2F0CB623-DBD1-4EA3-ABDA-DD2614CC8A7B} = {47D41EDE-CF80-4688-B6F6-A43473129045}
+		{F7670C70-11B1-4D66-8340-FDE8E1612B78} = {47D41EDE-CF80-4688-B6F6-A43473129045}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9FC87D33-9FBC-40C7-A9CC-F679E24D5423}

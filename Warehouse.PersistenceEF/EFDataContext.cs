@@ -5,9 +5,10 @@ namespace Warehouse.PersistenceEF
 {
     public class EFDataContext : DbContext
     {
-        public EFDataContext() 
+        public EFDataContext(
+            string connectionString = "server=.;database=Warehouse;trusted_connection=true;") 
             : this(new DbContextOptionsBuilder<EFDataContext>()
-                  .UseSqlServer("server=.;database=Warehouse;trusted_connection=true;").Options)
+                  .UseSqlServer(connectionString).Options)
         {
         }
 

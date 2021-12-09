@@ -1,4 +1,6 @@
-﻿using Warehouse.PersistenceEF;
+﻿using System;
+using Warehouse.Entities;
+using Warehouse.PersistenceEF;
 using Warehouse.PersistenceEF.Categories;
 using Warehouse.PersistenceEF.Products;
 using Warehouse.Services.Products;
@@ -24,6 +26,16 @@ namespace Warehouse.TestTools.Products
                 Title = "dummy toy",
                 Price = 10000,
                 CategoryId = categoryId
+            };
+        }
+
+        public static Product GenerateProduct(string title = "dummy product", int stock = 10)
+        {
+            return new Product
+            {
+                Title = title,
+                Price = 10000,
+                Stock = stock
             };
         }
     }
