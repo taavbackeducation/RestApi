@@ -2,6 +2,7 @@
 using Warehouse.Services.Products.Contracts;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Warehouse.Controllers
 {
@@ -16,15 +17,15 @@ namespace Warehouse.Controllers
         }
 
         [HttpPost]
-        public void Add([FromBody]AddProductDto dto)
+        public async Task Add([FromBody]AddProductDto dto)
         {
-            _productService.Add(dto);
+            await _productService.Add(dto);
         }
 
         [HttpGet]
-        public List<GetProcutDto> GetAll(string searchText = "")
+        public async Task<List<GetProcutDto>> GetAll(string searchText = "")
         {
-            return _productService.GetAll(searchText);
+            return await _productService.GetAll(searchText);
         }
 
         [HttpGet("{id}")]

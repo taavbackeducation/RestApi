@@ -6,6 +6,7 @@ using Warehouse.Services.Products.Contracts;
 using Warehouse.Services.SharedContracts;
 using Warehouse.Services.Categories.Contracts;
 using Warehouse.Services.Products.Exceptions;
+using System.Threading.Tasks;
 
 namespace Warehouse.Services.Products
 {
@@ -25,16 +26,16 @@ namespace Warehouse.Services.Products
             _unitOfWork = unitOfWork;
         }
 
-        public void Add(AddProductDto dto)
+        public async Task Add(AddProductDto dto)
         {
-            StopIfCategoryNotExist(dto.CategoryId);
+            await StopIfCategoryNotExist(dto.CategoryId);
             _products.Add(GenerateProduct(dto.Title, dto.Price, dto.CategoryId));
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
         }
 
-        public List<GetProcutDto> GetAll(string searchText)
+        public async Task<List<GetProcutDto>> GetAll(string searchText)
         {
-            return _products.GetAll(searchText);
+            return await _products.GetAll(searchText);
         }
 
         public GetProcutDto GetDetail(int id)
@@ -92,9 +93,9 @@ namespace Warehouse.Services.Products
                 Stock = 0
             };
         }
-        private void StopIfCategoryNotExist(int categoryId)
+        private async Task StopIfCategoryNotExist(int categoryId)
         {
-            if (!_categories.IsExist(categoryId))
+            if (!await _categories.IsExist(categoryId))
                 throw new CategoryNotFoundException();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Warehouse.Entities;
+﻿using System.Threading.Tasks;
+using Warehouse.Entities;
 
 namespace Warehouse.Services.Categories.Contracts
 {
@@ -6,6 +7,6 @@ namespace Warehouse.Services.Categories.Contracts
     {
         void Add(Category category);
         bool IsExist(string title);
-        bool IsExist(int categoryId);
+        Task<bool> IsExist(int categoryId);
     }
 }

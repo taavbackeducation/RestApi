@@ -2,6 +2,7 @@
 using Warehouse.Entities;
 using System.Linq;
 using Warehouse.Services.Categories.Contracts;
+using System.Threading.Tasks;
 
 namespace Warehouse.PersistenceEF.Categories
 {
@@ -19,9 +20,9 @@ namespace Warehouse.PersistenceEF.Categories
             _categories.Add(category);
         }
 
-        public bool IsExist(int categoryId)
+        public async Task<bool> IsExist(int categoryId)
         {
-            return _categories.Any(_ => _.Id == categoryId);
+            return await _categories.AnyAsync(_ => _.Id == categoryId);
         }
 		
 		public bool IsExist(string title)

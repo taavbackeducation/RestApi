@@ -1,6 +1,7 @@
 ﻿using Warehouse.Services.RequestNeeds.Contracts.Dtos;
 using Warehouse.Services.RequestNeeds.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Warehouse.Controllers
 {
@@ -15,9 +16,9 @@ namespace Warehouse.Controllers
         }
 
         [HttpPost]
-        public void Register([FromBody] RegisterRequestNeedDto dto)
+        public async Task Register([FromBody] RegisterRequestNeedDto dto)
         {
-            _requestNeeds.Register(dto);
+            await _requestNeeds.Register(dto);
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using Warehouse.Services.RequestNeeds.Contracts.Dtos;
+﻿using System.Threading.Tasks;
+using Warehouse.Services.RequestNeeds.Contracts.Dtos;
 
 namespace Warehouse.Services.RequestNeeds.Contracts
 {
     public interface RequestNeedService
     {
-        void Register(RegisterRequestNeedDto dto);
+        Task Register(RegisterRequestNeedDto dto);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Warehouse.Entities;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Warehouse.PersistenceEF.Products
 {
@@ -26,9 +27,9 @@ namespace Warehouse.PersistenceEF.Products
             return _products.FirstOrDefault(_ => _.Id == id);
         }
 
-        public List<GetProcutDto> GetAll(string searchText)
+        public async Task<List<GetProcutDto>> GetAll(string searchText)
         {
-            return _products.Where(product => product.Title.Contains(searchText))
+            return await _products.Where(product => product.Title.Contains(searchText))
                 .Select(_ => new GetProcutDto
                 {
                     Id = _.Id,
@@ -37,7 +38,7 @@ namespace Warehouse.PersistenceEF.Products
                     CountInStock = _.Stock,
                     CategoryId = _.CategoryId
 
-                }).ToList();
+                }).ToListAsync();
         }
 
         public GetProcutDto GetDetail(int id)
@@ -54,9 +55,9 @@ namespace Warehouse.PersistenceEF.Products
                 }).FirstOrDefault();
         }
 
-        public bool IsExist(int productId)
+        public async Task<bool> IsExist(int productId)
         {
-            return _products.Any(_ => _.Id == productId);
+            return await _products.AnyAsync(_ => _.Id == productId);
         }
 
         public void Remove(Product product)

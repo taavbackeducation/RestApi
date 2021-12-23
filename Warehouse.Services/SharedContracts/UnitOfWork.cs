@@ -1,7 +1,9 @@
-﻿namespace Warehouse.Services.SharedContracts
+﻿using System.Threading.Tasks;
+
+namespace Warehouse.Services.SharedContracts
 {
     public interface UnitOfWork
     {
-        void Complete();
+        Task Complete();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Warehouse.Entities;
 using Warehouse.PersistenceEF;
 using Warehouse.Services.RequestNeeds.Contracts;
@@ -25,14 +26,14 @@ namespace Warehouse.UnitTests.RequestNeeds
         }
 
         [Fact]
-        public void Register_register_request_need_properly()
+        public async Task Register_register_request_need_properly()
         {
             var product = ProductFactory.GenerateProduct();
             var category = new CategoryBuilder().WithProduct(product).Build();
             _dbContext.Manipulate(_ => _.Add(category));
             var dto = RequestNeedFactory.GenerateRegisterDto(product.Id);
 
-            _sut.Register(dto);
+            await _sut.Register(dto);
 
             var actualRequestNeed = _dbContext.Set<RequestNeed>().First();
             actualRequestNeed.ProductId.Should().Be(product.Id);
@@ -41,29 +42,29 @@ namespace Warehouse.UnitTests.RequestNeeds
         }
 
         [Fact]
-        public void Register_not_register_when_product_is_invalid()
+        public async Task Register_not_register_when_product_is_invalid()
         {
             var invalidProductId = 0;
             var dto = RequestNeedFactory.GenerateRegisterDto(productId: invalidProductId);
 
-            Action actual = () => _sut.Register(dto);
+            Func<Task> actual = async () => await _sut.Register(dto);
 
-            actual.Should().ThrowExactly<ProductNotFoundException>();
+            await actual.Should().ThrowExactlyAsync<ProductNotFoundException>();
         }
 
         [Theory]
         [InlineData(0)]
         [InlineData(-1)]
-        public void Register_not_register_when_request_need_count_is_less_than_one(int invalidCount)
+        public async Task Register_not_register_when_request_need_count_is_less_than_one(int invalidCount)
         {
             var product = ProductFactory.GenerateProduct();
             var category = new CategoryBuilder().WithProduct(product).Build();
             _dbContext.Manipulate(_ => _.Add(category));
             var dto = RequestNeedFactory.GenerateRegisterDto(product.Id, count: invalidCount);
 
-            Action actual = () => _sut.Register(dto);
+            Func<Task> actual = async () => await _sut.Register(dto);
 
-            actual.Should().ThrowExactly<RequestNeedCountIsLessThanOneException>();
+            await actual.Should().ThrowExactlyAsync<RequestNeedCountIsLessThanOneException>();
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Warehouse.Entities;
-using Warehouse.Services.SharedContracts;
+﻿using Warehouse.Services.SharedContracts;
+using System.Threading.Tasks;
 
 namespace Warehouse.PersistenceEF
 {
@@ -12,11 +12,9 @@ namespace Warehouse.PersistenceEF
             _dbContext = dbContext;
         }
 
-        public void Complete()
+        public async Task Complete()
         {
-
-            var x = _dbContext.Set<Product>();
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

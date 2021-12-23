@@ -5,6 +5,7 @@ using System;
 using Warehouse.Services.RequestNeeds.Contracts;
 using Warehouse.Services.RequestNeeds.Exceptions;
 using Warehouse.Services.Products.Contracts;
+using System.Threading.Tasks;
 
 namespace Warehouse.Services.RequestNeeds
 {
@@ -24,9 +25,9 @@ namespace Warehouse.Services.RequestNeeds
             _Products = products;
         }
 
-        public void Register(RegisterRequestNeedDto dto)
+        public async Task Register(RegisterRequestNeedDto dto)
         {
-            StopIfProductNotFound(dto);
+            await StopIfProductNotFound(dto);
             StopIfRequestNeedCoundIsLessThanOne(dto);
 
             var requestNeed = new RequestNeed
@@ -37,7 +38,7 @@ namespace Warehouse.Services.RequestNeeds
             };
 
             _requestNeeds.Add(requestNeed);
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
         }
 
         private static void StopIfRequestNeedCoundIsLessThanOne(RegisterRequestNeedDto dto)
@@ -46,9 +47,9 @@ namespace Warehouse.Services.RequestNeeds
                 throw new RequestNeedCountIsLessThanOneException();
         }
 
-        private void StopIfProductNotFound(RegisterRequestNeedDto dto)
+        private async Task StopIfProductNotFound(RegisterRequestNeedDto dto)
         {
-            if (!_Products.IsExist(dto.ProductId))
+            if (!await _Products.IsExist(dto.ProductId))
                 throw new ProductNotFoundException();
         }
     }

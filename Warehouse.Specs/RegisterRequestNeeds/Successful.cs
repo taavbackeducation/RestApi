@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 using Warehouse.Entities;
 using Warehouse.PersistenceEF;
 using Warehouse.Services.RequestNeeds.Contracts.Dtos;
@@ -33,7 +35,7 @@ namespace Warehouse.Specs.RegisterRequestNeeds
 
         [And(description: "یک کالا با نام مک بوک خوبو در دسته بندی کامپیوتر" +
                           "در انبار با موجودی 10 عدد تعریف شده است")]
-        public void AndGiven()
+        public async Task AndGiven()
         {
             _product = ProductFactory.GenerateProduct(title: "مک بوک خوبو", stock: 10);
             var category = new CategoryBuilder()
@@ -41,40 +43,41 @@ namespace Warehouse.Specs.RegisterRequestNeeds
                                 .WithProduct(_product)
                                 .Build();
             _dbContext.Add(category);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
         [When(description: "درخواست 2 عدد کالا با نام مک بوک خوبو مربوط به بخش " +
                            "IT" +
                            "به انبار داده می شود")]
-        public void When()
+        public async Task When()
         {
             _dto = RequestNeedFactory.GenerateRegisterDto(_product.Id, count: 2);
             var sut = RequestNeedFactory.GenerateService(_dbContext);
 
-            sut.Register(_dto);
+            await sut.Register(_dto);
         }
 
         [Then(description: "باید تنها یک درخواست کالا با عنوان مک بوک خوبو مربوط به بخش" +
                            "IT" +
                            "در فهرست درخواست های نیازمندی به انبار وجود داشته باشد")]
-        public void Then()
+        public async Task Then()
         {
-            var actual = _dbContext.Set<RequestNeed>().First();
+            var actual = await _dbContext.Set<RequestNeed>().ToListAsync();
 
-            actual.ProductId.Should().Be(_product.Id);
-            actual.Section.Should().Be(_dto.Section);
+            actual.Should().HaveCount(1);
+            actual.First().ProductId.Should().Be(_product.Id);
+            actual.First().Section.Should().Be(_dto.Section);
             actual.Count.Should().Be(_dto.Count);
         }
 
         [Fact]
-        public void Run()
+        public async Task Run()
         {
             Runner.RunScenario(
                 _ => Given(),
-                _ => AndGiven(),
-                _ => When(),
-                _ => Then()
+                _ => AndGiven().Wait(),
+                _ => When().Wait(),
+                _ => Then().Wait()
                 );
         }
     }

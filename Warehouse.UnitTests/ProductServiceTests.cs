@@ -1,6 +1,7 @@
 using FluentAssertions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Warehouse.Entities;
 using Warehouse.PersistenceEF;
 using Warehouse.Services.Products.Contracts;
@@ -24,13 +25,13 @@ namespace Warehouse.UnitTests
         }
 
         [Fact]
-        public void Add_add_product_correctly()
+        public async Task Add_add_product_correctly()
         {
             var category = CategoryFactory.GenerateCategory();
             _dbContext.Manipulate(_ => _.Add(category));
             var dto = ProductFactory.GenerateAddDto(category.Id);
 
-            _sut.Add(dto);
+            await _sut.Add(dto);
 
             var expectedProduct = _dbContext.Set<Product>().First();
             expectedProduct.Title.Should().Be(dto.Title);
@@ -39,14 +40,14 @@ namespace Warehouse.UnitTests
         }
 
         [Fact]
-        public void Add_not_add_when_category_not_found()
+        public async Task Add_not_add_when_category_not_found()
         {
             var invalidCategoryId = 0;
             var dto = ProductFactory.GenerateAddDto(categoryId: invalidCategoryId);
 
-            Action actual = () => _sut.Add(dto);
+            Func<Task> actual = async () => await _sut.Add(dto);
 
-            actual.Should().ThrowExactly<CategoryNotFoundException>();
+            await actual.Should().ThrowExactlyAsync<CategoryNotFoundException>();
         }
 
 
