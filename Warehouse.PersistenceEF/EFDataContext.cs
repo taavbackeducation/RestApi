@@ -6,7 +6,7 @@ namespace Warehouse.PersistenceEF
     public class EFDataContext : DbContext
     {
         public EFDataContext(
-            string connectionString = "server=.;database=Warehouse;trusted_connection=true;") 
+            string connectionString) 
             : this(new DbContextOptionsBuilder<EFDataContext>()
                   .UseSqlServer(connectionString).Options)
         {

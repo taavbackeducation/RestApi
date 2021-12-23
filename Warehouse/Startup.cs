@@ -20,9 +20,12 @@ namespace Warehouse
 {
     public class Startup
     {
+        private readonly string _connectionString;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _connectionString = configuration.GetConnectionString("stage");
         }
 
         public IConfiguration Configuration { get; }
@@ -31,7 +34,6 @@ namespace Warehouse
         {
 
             services.AddControllers();
-            services.AddDbContext<EFDataContext>();
             
             ConfigBusinessServices(services);
 
@@ -62,8 +64,10 @@ namespace Warehouse
             });
         }
 
-        private static void ConfigBusinessServices(IServiceCollection services)
+        private void ConfigBusinessServices(IServiceCollection services)
         {
+            services.AddScoped<EFDataContext>(_ => new EFDataContext(_connectionString));
+
             services.AddScoped<ProductService, ProductAppService>();
             services.AddScoped<CategoryService, CategoryAppService>();
             services.AddScoped<RequestNeedService, RequestNeedAppService>();
